@@ -27,13 +27,21 @@
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
 
+    /* ✅ PAGE SCROLL (NOT CARD SCROLL) */
     body{
       margin:0;
       color:var(--txt);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      overflow:hidden;
-      display:grid;
-      place-items:center;
+
+      overflow-x:hidden;
+      overflow-y:auto;
+
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+
+      padding: 20px 0;
+
       background:
         radial-gradient(1200px 800px at 18% 25%, rgba(255,47,109,.20), transparent 55%),
         radial-gradient(1000px 650px at 82% 70%, rgba(180,107,255,.18), transparent 58%),
@@ -136,7 +144,19 @@
       100%{ opacity:0; transform: translate(var(--x1), var(--y1)) scale(1.35) rotate(20deg); }
     }
 
-    .wrap{ width:min(760px, 92vw); padding:18px; position:relative; z-index:2; }
+    .wrap{
+      width:min(760px, 92vw);
+      padding:18px;
+      position:relative;
+      z-index:2;
+      margin: 0 auto;
+
+      padding-left: max(14px, env(safe-area-inset-left));
+      padding-right: max(14px, env(safe-area-inset-right));
+      padding-top: max(14px, env(safe-area-inset-top));
+      padding-bottom: max(14px, env(safe-area-inset-bottom));
+    }
+
     .card{
       border-radius: var(--r);
       background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
@@ -156,6 +176,8 @@
         radial-gradient(900px 260px at 50% 110%, rgba(66,255,210,.10), transparent 60%);
       pointer-events:none;
     }
+
+    /* ✅ NO inner scroll anymore */
     .inner{ position:relative; padding:22px; }
 
     .header{
@@ -282,7 +304,7 @@
       border:1px solid rgba(255,255,255,.12);
     }
 
-    /* ===== First screen: rounded-square BIG buttons ===== */
+    /* ===== FIRST SCREEN: BIG rounded-square buttons ===== */
     .bigRow{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
     .btn.big{
       min-width: unset;
@@ -290,7 +312,7 @@
       padding: 18px 18px;
       font-size: 16px;
       font-weight: 950;
-      border-radius: 22px; /* rounded square */
+      border-radius: 22px;
     }
 
     .btn.ripple::after{
@@ -311,12 +333,12 @@
       100%{ opacity:0; transform: translate(-50%,-50%) scale(18); }
     }
 
-    /* ===== First screen: BIG photo inside card (rounded square) ===== */
+    /* ===== FIRST SCREEN: BIG photo inside card (rounded square) ===== */
     .heroPhotoWrap{
       width: min(520px, 92vw);
       margin: 6px auto 14px;
       position: relative;
-      border-radius: 28px; /* rounded square */
+      border-radius: 28px;
       padding: 4px;
       background: conic-gradient(from 90deg, rgba(255,47,109,.9), rgba(180,107,255,.7), rgba(66,255,210,.5), rgba(255,90,146,.85));
       box-shadow: 0 18px 44px rgba(0,0,0,.40);
@@ -337,7 +359,6 @@
       transform: translateY(18px);
     }
 
-    /* ===== Wish/Vibes/End (unchanged) ===== */
     .typeBox{
       border-radius: 22px;
       background: rgba(0,0,0,.18);
@@ -348,8 +369,7 @@
       font-weight:800;
       white-space: pre-wrap;
       min-height: 140px;
-      max-height: 260px;
-      overflow:auto;
+      overflow:visible; /* ✅ no internal scroll */
     }
     .cursor{
       display:inline-block;
@@ -495,26 +515,14 @@
       50%{ transform: scale(1.04); opacity:1; }
     }
 
-    /* ===== Global mobile patch (scroll + safe area) ===== */
-    body{ min-height: 100svh; }
-    @media (max-height: 760px){
-      body{ overflow-y:auto; -webkit-overflow-scrolling:touch; }
-    }
-    .wrap{
-      padding-left: max(14px, env(safe-area-inset-left));
-      padding-right: max(14px, env(safe-area-inset-right));
-      padding-top: max(14px, env(safe-area-inset-top));
-      padding-bottom: max(14px, env(safe-area-inset-bottom));
-    }
-    .card{ max-height: 92svh; }
-    .inner{ max-height: 92svh; overflow:auto; -webkit-overflow-scrolling:touch; }
-
-    /* ===== MOBILE: ONLY FIRST SCREEN IMPROVED ===== */
+    /* MOBILE: first screen only (rest ok) */
     @media (max-width: 620px){
+      .wrap{ width: min(520px, 96vw); padding: 12px; }
+      .inner{ padding: 16px; }
+
       #screenStart .title{ font-size: clamp(22px, 7vw, 34px); margin-top: 8px; }
       #screenStart .sub{ font-size: 13px; margin-bottom: 12px; }
 
-      /* photo = big portrait */
       #screenStart .heroPhotoWrap{
         width: 100%;
         max-width: 560px;
@@ -524,7 +532,7 @@
       }
       #screenStart .heroPhoto{
         border-radius: 26px;
-        aspect-ratio: 4 / 5;   /* best on phone */
+        aspect-ratio: 4 / 5;
         max-height: 56svh;
       }
       #screenStart .heroPhoto img{
@@ -532,12 +540,8 @@
         transform: translateY(10px);
       }
 
-      /* buttons stack + big rounded squares */
       #screenStart .panel{ padding: 14px; border-radius: 22px; }
-      #screenStart .bigRow{
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
+      #screenStart .bigRow{ grid-template-columns: 1fr; gap: 12px; }
       #screenStart .btn.big{
         border-radius: 22px;
         padding: 20px 16px;
@@ -545,9 +549,7 @@
         width: 100%;
       }
 
-      /* keep rest as you had */
       .grid2{ grid-template-columns: 1fr; }
-      .typeBox{ max-height: 240px; }
       .heartPhotoWrap{ width: min(260px, 78vw); }
       .love{ font-size: clamp(28px, 8vw, 44px); }
     }
@@ -555,6 +557,8 @@
     @media (max-width: 380px){
       #screenStart .heroPhoto{ max-height: 52svh; }
       #screenStart .btn.big{ padding: 18px 14px; }
+      .chip{ font-size: 12px; padding: 8px 10px; }
+      .step{ font-size: 11px; padding: 7px 9px; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -574,6 +578,7 @@
     <div class="blob b2"></div>
     <div class="blob b3"></div>
   </div>
+
   <div class="floatLayer" id="floatLayer"></div>
   <div class="confetti" id="confetti"></div>
   <div class="burst" id="burst"></div>
@@ -605,7 +610,6 @@
 
         <!-- SCREEN 1 -->
         <section class="screen active" id="screenStart">
-
           <div class="heroPhotoWrap">
             <div class="heroPhoto">
               <img src="her.jpeg" alt="Kashish" onerror="this.onerror=null; this.src='her.jpg';">
@@ -668,7 +672,7 @@
   </div>
 
 <script>
-  // ===== Background audio (starts after user interaction) =====
+  // ===== Background audio =====
   const bgAudio = document.getElementById("bgAudio");
   const musicBtn = document.getElementById("musicBtn");
   let musicOn = false;
@@ -826,7 +830,7 @@ Happy Birthday anyway 🎂🤍
     { t:"🤍 Peace", d:"I hope u get calm days and real happiness." },
     { t:"🌟 Growth", d:"More progress, more confidence, more success." },
     { t:"🥳 Celebrate", d:"Eat good, laugh more, and enjoy ur people." },
-    { t:"🙏 Dua", d:"May Allah bless u with everything good and wrote u in my Kismat. Ameen." },
+    { t:"🙏 Dua", d:"May Allah bless u with everything good and wrote u in my kismat. Ameen." },
   ];
 
   // typing
