@@ -282,7 +282,7 @@
       border:1px solid rgba(255,255,255,.12);
     }
 
-    /* Big buttons + rounded square vibe for start screen */
+    /* ===== First screen: rounded-square BIG buttons ===== */
     .bigRow{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
     .btn.big{
       min-width: unset;
@@ -311,7 +311,7 @@
       100%{ opacity:0; transform: translate(-50%,-50%) scale(18); }
     }
 
-    /* ===== NEW: BIG PHOTO INSIDE FIRST CARD (rounded square) ===== */
+    /* ===== First screen: BIG photo inside card (rounded square) ===== */
     .heroPhotoWrap{
       width: min(520px, 92vw);
       margin: 6px auto 14px;
@@ -334,10 +334,10 @@
       object-fit: cover;
       object-position: 50% 35%;
       display:block;
-      transform: translateY(18px); /* move face down a bit */
+      transform: translateY(18px);
     }
 
-    /* ===== WISH / VIBES / END (same as before) ===== */
+    /* ===== Wish/Vibes/End (unchanged) ===== */
     .typeBox{
       border-radius: 22px;
       background: rgba(0,0,0,.18);
@@ -495,7 +495,7 @@
       50%{ transform: scale(1.04); opacity:1; }
     }
 
-    /* Mobile patch */
+    /* ===== Global mobile patch (scroll + safe area) ===== */
     body{ min-height: 100svh; }
     @media (max-height: 760px){
       body{ overflow-y:auto; -webkit-overflow-scrolling:touch; }
@@ -509,26 +509,52 @@
     .card{ max-height: 92svh; }
     .inner{ max-height: 92svh; overflow:auto; -webkit-overflow-scrolling:touch; }
 
+    /* ===== MOBILE: ONLY FIRST SCREEN IMPROVED ===== */
     @media (max-width: 620px){
-      .wrap{ width: min(520px, 96vw); padding: 12px; }
-      .inner{ padding: 16px; }
-      .steps{ justify-content:flex-start; }
+      #screenStart .title{ font-size: clamp(22px, 7vw, 34px); margin-top: 8px; }
+      #screenStart .sub{ font-size: 13px; margin-bottom: 12px; }
 
-      .title{ font-size: clamp(22px, 6.5vw, 34px); }
-      .sub{ font-size: 13px; margin-bottom: 12px; }
+      /* photo = big portrait */
+      #screenStart .heroPhotoWrap{
+        width: 100%;
+        max-width: 560px;
+        margin: 6px auto 12px;
+        border-radius: 30px;
+        padding: 4px;
+      }
+      #screenStart .heroPhoto{
+        border-radius: 26px;
+        aspect-ratio: 4 / 5;   /* best on phone */
+        max-height: 56svh;
+      }
+      #screenStart .heroPhoto img{
+        object-position: 50% 35%;
+        transform: translateY(10px);
+      }
 
-      .panel{ padding: 14px; border-radius: 18px; }
-      .bigRow{ grid-template-columns: 1fr; }
-      .btn.big{ padding: 18px 16px; font-size: 16px; border-radius: 22px; }
+      /* buttons stack + big rounded squares */
+      #screenStart .panel{ padding: 14px; border-radius: 22px; }
+      #screenStart .bigRow{
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      #screenStart .btn.big{
+        border-radius: 22px;
+        padding: 20px 16px;
+        font-size: 16px;
+        width: 100%;
+      }
 
-      .heroPhotoWrap{ width: min(520px, 96vw); margin-bottom: 12px; }
-      .heroPhoto{ aspect-ratio: 16 / 12; }
-      .heroPhoto img{ transform: translateY(14px); }
-
+      /* keep rest as you had */
       .grid2{ grid-template-columns: 1fr; }
       .typeBox{ max-height: 240px; }
       .heartPhotoWrap{ width: min(260px, 78vw); }
       .love{ font-size: clamp(28px, 8vw, 44px); }
+    }
+
+    @media (max-width: 380px){
+      #screenStart .heroPhoto{ max-height: 52svh; }
+      #screenStart .btn.big{ padding: 18px 14px; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -577,7 +603,7 @@
           </div>
         </div>
 
-        <!-- SCREEN 1 (BIG PHOTO INSIDE + BIG ROUNDED SQUARE BUTTONS) -->
+        <!-- SCREEN 1 -->
         <section class="screen active" id="screenStart">
 
           <div class="heroPhotoWrap">
@@ -889,6 +915,8 @@ Happy Birthday anyway 🎂🤍
         ${isOpen ? "🎁 Enjoy ur day 😌🤍" : "😌 Whenever u want"}
       </div>
     `;
+
+    if(isOpen) confettiBurst();
   }
 
   // navigation
@@ -908,8 +936,6 @@ Happy Birthday anyway 🎂🤍
     startTyping(isOpen ? MSG_OPEN : MSG_NOTOPEN);
     renderVibes(isOpen);
     renderEnd(isOpen);
-
-    if(isOpen) confettiBurst();
     show("wish");
   }
 
