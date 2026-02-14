@@ -676,6 +676,7 @@
   const bgAudio = document.getElementById("bgAudio");
   const musicBtn = document.getElementById("musicBtn");
   let musicOn = false;
+  startMusic();
 
   async function startMusic(){
     try{
@@ -808,30 +809,28 @@
   // ===== content =====
   const MSG_OPEN =
 `Happy Birthday Kashish 🎂✨
-
 I hope this year brings u peace, happiness, and everything u have been working for.
 U deserve good things good people and good moments.
 I just wanted to be honest with u about something getting to know u has genuinely been one of the nicest parts of my life recently. There’s something about ur mindset ur kindness and the way u see things that really stands out to me talking to u always feels easy and natural and I really enjoy every moment of it.
-I respect u deeply not just for how u are with me but for the person u are in general. U inspire me more than u probably realise and I really admire ur strength honesty and ambition.
-There’s something u once shared with me about ur dreams about AI solicitor it stayed in my mind. I didn’t bring it up straight away when we meat because I wanted us to understand each other properly first. But over time, those dreams started to feel important to me too. In a way they became my dreams as well and u want i ready working on that i give surprise one day when some build first part then we build together inshaAllah .
+I respect u deeply i really admire ur strength honesty and ambition.
+There’s something u once shared with me about ur dreams about AI solicitor it stayed in my mind. I didn’t bring it up straight away when we meat because I wanted us to understand each other properly first. But over time, those dreams started to feel important to me too. In a way they became my dreams as well and u know what i am already working on that i give surprise one day when some first part ready then i show u then we build together inshaAllah .
 I see us supporting each other working hard and building something meaningful together inshaAllah. Standing side by side growing together and achieving great things not just for ourselves but for our future.
 I’m not someone who believes in anything temporary. When I care I care genuinely I believe in honesty patience and loyalty. And if Allah has written something for us I’ll always try my best to protect it and never let outside things affect us.
 I’m saying all of this with sincerity and respect. This is how I feel and I felt it was important to share it honestly with u. No pressure at all just my heart speaking 💙
 Enjoy ur day properly 😌🤍
 
-— Ashfaq`;
+ Ashfaq`;
 
   const MSG_NOTOPEN =
 `All good 😌
-
 Whenever u feel like, open it.
 Happy Birthday anyway 🎂🤍
 
-— Ashfaq`;
+ Ashfaq`;
 
   const VIBES_OPEN = [
     { t:"🎂 Today’s wish", d:"May this year be full of wins and happy moments." },
-    { t:"✨ New chapter", d:"This year will looks good on u — new goals, new energy.and u get some caring like me" },
+    { t:"✨ New chapter", d:"This year will looks good on u — new goals, new energy." },
     { t:"🤍 Peace", d:"I hope u get calm days and real happiness." },
     { t:"🌟 Growth", d:"More progress, more confidence, more success." },
     { t:"🥳 Celebrate", d:"Eat good, laugh more, and enjoy ur people." },
@@ -876,7 +875,7 @@ Happy Birthday anyway 🎂🤍
   function renderVibes(isOpen){
     if(isOpen){
       nextTitle.innerHTML = `Little <span>wishes</span> for u 🤍`;
-      nextSub.textContent = "28th chapter starts now 😌";
+      nextSub.textContent = "New chapter starts now 😌";
       nextBody.innerHTML = `
         <div class="grid2">
           ${VIBES_OPEN.map(x => `
