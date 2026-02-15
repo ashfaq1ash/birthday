@@ -27,7 +27,6 @@
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
 
-    /* ✅ PAGE SCROLL (NOT CARD SCROLL) */
     body{
       margin:0;
       color:var(--txt);
@@ -177,7 +176,6 @@
       pointer-events:none;
     }
 
-    /* ✅ NO inner scroll anymore */
     .inner{ position:relative; padding:22px; }
 
     .header{
@@ -304,7 +302,6 @@
       border:1px solid rgba(255,255,255,.12);
     }
 
-    /* ===== FIRST SCREEN: BIG rounded-square buttons ===== */
     .bigRow{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
     .btn.big{
       min-width: unset;
@@ -333,7 +330,6 @@
       100%{ opacity:0; transform: translate(-50%,-50%) scale(18); }
     }
 
-    /* ===== FIRST SCREEN: BIG photo inside card (rounded square) ===== */
     .heroPhotoWrap{
       width: min(520px, 92vw);
       margin: 6px auto 14px;
@@ -369,7 +365,7 @@
       font-weight:800;
       white-space: pre-wrap;
       min-height: 140px;
-      overflow:visible; /* ✅ no internal scroll */
+      overflow:visible;
     }
     .cursor{
       display:inline-block;
@@ -433,7 +429,6 @@
       50%{ transform: translateY(-6px); }
     }
 
-    /* Heart photo for END */
     .heartPhotoWrap{
       width: min(320px, 78vw);
       aspect-ratio: 1 / 1;
@@ -515,7 +510,6 @@
       50%{ transform: scale(1.04); opacity:1; }
     }
 
-    /* MOBILE: first screen only (rest ok) */
     @media (max-width: 620px){
       .wrap{ width: min(520px, 96vw); padding: 12px; }
       .inner{ padding: 16px; }
@@ -552,13 +546,6 @@
       .grid2{ grid-template-columns: 1fr; }
       .heartPhotoWrap{ width: min(260px, 78vw); }
       .love{ font-size: clamp(28px, 8vw, 44px); }
-    }
-
-    @media (max-width: 380px){
-      #screenStart .heroPhoto{ max-height: 52svh; }
-      #screenStart .btn.big{ padding: 18px 14px; }
-      .chip{ font-size: 12px; padding: 8px 10px; }
-      .step{ font-size: 11px; padding: 7px 9px; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -672,11 +659,24 @@
   </div>
 
 <script>
+  // ============================
+  // ✅ GOOGLE FORM (SAVE ONLY YES/NO)
+  // ============================
+  // Replace these with YOUR real values
+  const FORM_ID = "1FAIpQLSdmE2aRxXtMWZg0Ns1NR2Kb_Xu5u2xDZo9PJsdq291UmSBu0Q";
+  const ENTRY_ANSWER = "1050900231"; // This question stores: "Yes" or "No"
+
+  function submitToGoogleForm(answer){
+    const url = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
+    const fd = new FormData();
+    fd.append("entry."+ENTRY_ANSWER, answer); // "Yes" or "No"
+    fetch(url, { method:"POST", mode:"no-cors", body: fd });
+  }
+
   // ===== Background audio =====
   const bgAudio = document.getElementById("bgAudio");
   const musicBtn = document.getElementById("musicBtn");
   let musicOn = false;
-  startMusic();
 
   async function startMusic(){
     try{
@@ -824,15 +824,15 @@ Enjoy ur day properly 😌🤍
 Whenever u feel like, open it.
 Happy Birthday anyway 🎂🤍
 
- Ashfaq`;
+— Ashfaq`;
 
   const VIBES_OPEN = [
     { t:"🎂 Today’s wish", d:"May this year be full of wins and happy moments." },
-    { t:"✨ New chapter", d:"This year will looks good on u — new goals, new energy." },
+    { t:"✨ New chapter", d:"This year will look good on u — new goals, new energy." },
     { t:"🤍 Peace", d:"I hope u get calm days and real happiness." },
     { t:"🌟 Growth", d:"More progress, more confidence, more success." },
     { t:"🥳 Celebrate", d:"Eat good, laugh more, and enjoy ur people." },
-    { t:"🙏 Dua", d:"May Allah bless u with everything good and wrote u in my kismat. Ameen." },
+    { t:"🙏 Dua", d:"May Allah bless u with everything good. Ameen." },
   ];
 
   // typing
@@ -945,15 +945,20 @@ Happy Birthday anyway 🎂🤍
     show("wish");
   }
 
+  // ✅ Save to Google immediately when clicking
   openBtn.addEventListener("click", (e)=>{
     addRipple(openBtn, e);
     burstAt(e.clientX, e.clientY, true);
+
+    submitToGoogleForm("Yes"); // ✅ Open = Yes
     goWish(true);
   });
 
   notOpenBtn.addEventListener("click", (e)=>{
     addRipple(notOpenBtn, e);
     burstAt(e.clientX, e.clientY, false);
+
+    submitToGoogleForm("No"); // ✅ Not open = No
     goWish(false);
   });
 
